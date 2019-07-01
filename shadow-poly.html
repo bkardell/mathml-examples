@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>MathML Experiments: Shadow Polyfilling</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/prism.css">
+    <script src="prism.js"></script>
+    
+    <style>
+      section {
+        padding:  1rem;
+        margin: `rem;
+        border-bottom: 1px dotted gray;
+      }
+      figcaption {
+        font-style: italic;
+        font-size: 0.8rem;
+      }
+      .out {
+        margin: 1rem;
+      }
+
+    </style>
+  </head>  
+  <body>
+    <h1>Polyfilling MathML beyond MathML-Core with Shadow DOM: An Experiment</h1>
+    <p>
+      The efforts to move MathML forward are based around 
+      an analysis of what is both implmented and used and 
+      extracting this to defining a minimal viable 
+      subset to be natively supported by browsers.
+      This new subset is being defined as <a href="https://mathml-refresh.github.io/mathml-core/">MathML Core</a>. 
+    </p>
+
+    <p>
+      MathML Core is a substantial pruning of just what 
+      is really necessary.  If you want more than that, 
+      this is left to polyfills.  Traditionally, 
+      though, math polyfills have been a little harder 
+      than they should be, with some not-so-desireable
+      side effects of being destructive, lacking live-ness
+      and just generally present mental model mismatch 
+      problems.  They hamper an author's ability 
+      to actually reason about the DOM tree that they wrote.  
+      MathML elements lacking important common platform APIs 
+      which made them very 'different'.
+    </p>
+
+    <p>
+      Among the things that we are doing in spec'ing out MathML Core 
+      is connecting the missing platform APIs and making MathML elements
+      more similar.  One of the ideas we had was to follow through 
+      with some other ideas happening in chromium right now and simply 
+      allow any unknown MathML element to have a Shadow DOM.
+    </p>
+      
+      <section>
+        <h1>
+          example
+        </h1>
+        
+        <p>
+          MathML Core, for example does not support <code>mfenced</code>
+          because it is, effectively, a shorthand which is strictly 
+          equivalent for something else.  It is mostly useful if you 
+          are coding MathML by hand, which is far rarer than creating 
+          it via tools. 
+        </p>
+        
+        
+        <p>
+          So, given some code like this...
+        </p>
+        
+        <pre><code class="language-html">&lt;math&gt; 
+  &lt;mfenced&gt;
+    &lt;mi&gt;x&lt;/mi&gt; 
+  &lt;/mfenced&gt;
+&lt;/math&gt;</code></pre>
+         
+
+      <p>
+        With this in place, and a polyfill for <code>&lt;mfenced&gt;</code>
+        we wind up with a tree that looks like this
+      </p>
+        
+      <figure>
+        <img src="https://cdn.glitch.com/90057583-2a79-46b7-b5ef-6cef3be87da6%2Ffenced1.png?v=1561992160530">
+        <figcaption>devtools illustrating the same light DOM, but a shadow root containing expanded 
+          elements
+        </figcaption>
+      </figure>
+        
+      <p>
+        If you're interested, you 
+        can <a href="https://build-chromium.igalia.com/mathml/packages/">download an experimental build for linux</a>
+        created by my team at Igalia and 
+        head over and 
+        <a href="fenced.html">view some <code>&lt;mfenced&gt;</code> examples yourself</a>
+        which are module based and live-DOM attached.
+      </p>
+        
+      <p>
+        If you think this is interesting and important work, 
+        think about participating or funding our work 
+        through the larger <a href="
+        https://mathml.igalia.com">MathML efforts</a>!
+      </p>
+        
+    </section>
+    
+    
+    
+  </body>
+</html>

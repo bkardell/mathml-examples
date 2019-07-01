@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>mfence shadow polyfill demo</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/prism.css">
+    <script src="prism.js"></script>
+
+    <style>
+      section {
+        padding: 2rem;
+        margin: 2rem;
+        border-bottom: 1px dotted gray;
+      }
+      .out {
+        margin: 2rem;
+      }
+
+    </style>
+  </head>  
+  <body>
+    <h1>Shadow DOM polyfilling MathML beyond MathML-Core</h1>
+    <p>
+      An example of <a href="shadow-poly.html">employing experimental Shadow DOM in MathML</a>
+      for polyfilling.  These examples adapt the <a href="https://github.com/mathml-refresh/mathml-polyfills/tree/master/mfenced">existing 
+      polyfill</a> using modules, a core mutation observer 
+      and Shadow DOM...
+    </p>
+    
+    <section>
+      <h1>
+        Simple
+      </h1>
+      Code sample:
+      <pre><code class="language-html">&lt;math&gt; 
+  &lt;mfenced&gt;
+    &lt;mi&gt;x&lt;/mi&gt; 
+  &lt;/mfenced&gt;
+&lt;/math&gt;</code></pre>
+
+
+      <div class="out">
+        renders as:
+        <math> 
+          <mfenced> 
+            <mi>x</mi> 
+         </mfenced> 
+        </math>
+      </div>
+      
+    </section>
+    
+    
+    <section>
+      <h1>
+        Repeating separator
+      </h1>
+      Code sample:
+      <pre><code class="language-html">&lt;math&gt;
+  &lt;mfenced open="{" close="}" separators=";;,"&gt;
+    &lt;mi&gt;a&lt;/mi&gt;
+    &lt;mi&gt;b&lt;/mi&gt;
+    &lt;mi&gt;c&lt;/mi&gt;
+    &lt;mi&gt;d&lt;/mi&gt;
+    &lt;mi&gt;e&lt;/mi&gt;
+  &lt;/mfenced&gt;
+&lt;/math&gt;
+</code></pre>
+
+
+      <div class="out">
+        renders as:
+        <math>
+          <mfenced open="{" close="}" separators=";;,"> 
+            <mi>a</mi> 
+            <mi>b</mi> 
+            <mi>c</mi> 
+            <mi>d</mi> 
+            <mi>e</mi> 
+          </mfenced> 
+        </math>
+
+      </div>
+      
+    </section>
+    
+    
+    
+    
+    <section>
+      <h1>
+        Too many separators
+      </h1>
+      Code sample:
+      <pre><code class="language-html">&lt;math&gt;
+  &lt;mfenced  open="[" close="]" separators="||||,"&gt;
+    &lt;mi&gt;a&lt;/mi&gt;
+    &lt;mi&gt;b&lt;/mi&gt;
+    &lt;mi&gt;c&lt;/mi&gt;
+    &lt;mi&gt;d&lt;/mi&gt;
+    &lt;mi&gt;e&lt;/mi&gt;
+  &lt;/mfenced&gt;
+&lt;/math&gt;
+</code></pre>
+
+
+      <div class="out">
+        renders as:
+        <math>
+          <mfenced open="[" close="]" separators="||||,"> 
+            <mi>a</mi> 
+            <mi>b</mi> 
+            <mi>c</mi> 
+            <mi>d</mi> 
+            <mi>e</mi> 
+          </mfenced> 
+        </math>
+
+      </div>
+      
+    </section>
+    
+    <section>
+      <h1>
+        Details
+      </h1>
+      <p>
+        A module is included either via a script tag like
+      </p>
+      <pre><code class="language-javascript">&lt;script type="module" src="./js/poly/fenced-shadow-poly.js"&gt;&lt;/script&gt;</code></pre>
+      <p>
+        Or through JS code it can be packaged or imported.
+      </p>
+      <p>
+        This fenced polyfill itself imports a module called
+        <code>math-polys-core.js</code> which exposes a single
+        method <code>poly.define(<em>selector</em>, <em>callback</em>)</code>.
+        This method allows you to define a tag or attribute to 
+        observe and, when present will invoke the callback 
+        with the matching element, containing a ShadowRoot.  
+        It will also scan the tree upon definition so that 
+        anything not 'upgraded' will automatically do so.
+        The idea is simply that this would probably be 
+        a common pattern for high-fidelity polyfills and 
+        better to not repeat.
+      </p>
+      
+    </section>
+    
+    
+  </body>
+  <script type="module" src="./js/poly/fenced-shadow-poly.js"></script>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>MathML Experiments: Building Up</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/prism.css">
+    <script src="prism.js"></script>
+    <script src="https://fred-wang.github.io/TeXZilla/TeXZilla-min.js"></script>
+    <script src="https://fred-wang.github.io/TeXZilla/examples/customElement.js"></script>
+    <script src="/js/converters/ascii-math-to-mathml.js"></script>
+    <script src="/js/elements/ascii-math.js"></script>
+   
+    
+    <style>
+      section {
+        padding:  1rem;
+        margin: `rem;
+        border-bottom: 1px dotted gray;
+      }
+      figcaption {
+        font-style: italic;
+        font-size: 0.8rem;
+      }
+      .out {
+        margin: 1rem;
+      }
+
+    </style>
+  </head>  
+  <body>
+    <h1>MathML as a foundation</h1>
+    <p>One bit of common feedback about MathML 
+    is that some other form of expression is better 
+    or more preferable becauase it is easier to both type
+    and read than MathML which is, by comparison, 
+    pretty verbose. Common examples, frequently held 
+      up are ASCII-Math or TeX.
+    </p>
+    <p>
+      People suggest, for example that <em>instead of MathML</em>, 
+      what they'd like to do is write something like:
+    </p>
+    <pre><code class="language-html">&lt;something&gt;sum_(i=1)^n i^3=((n(n+1))/2)^2&lt;/something&gt;</code></pre>
+    <p>
+      Or perhaps
+    </p>
+    <pre><code class="language-html">&lt;something&gt;f(x)=\sum_{n=-\infty}^\infty c_n e^{2\pi i(n/T) x} = \sum_{n=-\infty}^\infty \hat{f}(\xi_n) e^{2\pi i\xi_n x}\Delta\xi&lt;/something&gt;</code></pre>
+    <p>
+      It isn't untrue that these forms are more 
+      terse and probably easier for many authors 
+      to both read and type by hand.  However, 
+      all of these ignore important questions 
+      of how well these 'fit' into the current 
+      platform and thus what would have to be 
+      specified and whether that is plausible or 
+      likely.
+    </p>
+    <p>
+      Consider that both of these take 
+      a string of text which require a different 
+      parser, define when that parsing happens, 
+      and then finally, what to with it.  None 
+      of these currently have seemingly any 
+      precedent or answer, but, interestingly
+      I they do have parallels. 
+    </p>
+    <p>
+      Markdown, for example, is similarly
+      considerably easy to author, read and 
+      maintain by hand than HTML itself. It 
+      is more globally useful than either 
+      of these, and yet, we have no <code>&lt;markdown&gt;</code>
+      element.
+    </p>
+    <p>
+      Perhaps all of these are problems worth 
+      thinking about, but there is an important 
+      distinction between markdown and either 
+      ASCII-Math or LaTex in that 'what to do with it'
+      is relatively clear - just turn it into HTML.
+      Just turning it into HTML means that it is then 
+      just the platform - people can create stylesheets
+      that address HTML elements, or write things 
+      that progressively enhance it, and so on.
+      Having a standard tree that really "fits" is
+      a big advantage.
+    </p>
+    
+    <p>
+      This is where I think MathML helps, and 
+      underscores why I think even if you don't think
+      it's the best thing to write by hand, you should 
+      be supporting it crossing the finish line: Because 
+      it gives us precisely that, for math, and 
+      it's not only almost there, but it has a rich 
+      ecosystem of ways to author it or convert 
+      to it (most HTML isn't written by hand either)
+    </p>
+    
+    <p>
+      What this would mean is that even if you thought
+      that this work belonged in the browser, 
+      it's a short hop with few unknowns to something 
+      very good! 
+    </p>
+    
+    <section>
+      <h1>
+        Example: ASCII Math
+      </h1>
+      <p>
+      For example, we 
+      can create a simple custom element that takes
+      the first example above and allows us to 
+      author
+    </p>
+    
+    <pre><code class="language-html">&lt;ascii-math&gt;sum_(i=1)^n i^3=((n(n+1))/2)^2&lt;/ascii-math&gt;</code></pre>
+    
+    <p>
+      which plugs into the DOM lifecycle, 
+      provides it converter, uses a ShadowRoot 
+      and provides us with a nice rendering...
+    </p>
+    
+    <p>
+    <ascii-math>sum_(i=1)^n i^3=((n(n+1))/2)^2</ascii-math>
+    </p>
+    
+    <p>
+      But also also a very predictable, 
+      well specified tree structure, 
+      about math, which fits the platform and upon
+      which we could further operate/reason
+    </p>
+    
+    <figure>
+      <img src="https://cdn.glitch.com/90057583-2a79-46b7-b5ef-6cef3be87da6%2FScreenshot%20from%202019-07-01%2012-52-25.png?v=1561999965277">
+      <figcaption>An example showing expanded ShadowDOM containing
+      MathML</figcaption>
+    </figure>
+    </section>
+    
+    
+    <section>
+      <h1>
+        TeX
+      </h1>
+      <p>
+      Or, similarly, our second example we could have 
+    </p>
+
+    <pre><code class="language-html">&lt;x-tex&gt;f(x)=\sum_{n=-\infty}^\infty c_n e^{2\pi i(n/T) x} = \sum_{n=-\infty}^\infty \hat{f}(\xi_n) e^{2\pi i\xi_n x}\Delta\xi&lt;/x-text&gt;
+</code></pre>
+        
+    <p>
+      Which does the same and renders
+    </p>
+    
+    <p>
+      <x-tex>f(x)=\sum_{n=-\infty}^\infty c_n e^{2\pi i(n/T) x} = \sum_{n=-\infty}^\infty \hat{f}(\xi_n) e^{2\pi i\xi_n x}\Delta\xi</x-tex>
+    </p>
+    
+    <p>
+      Again, it's asking the 
+      fewest questions: When it happens, how it happens, 
+      what it maps to are predictable, and the final 
+      answer "fits" very well into the platform and 
+      authors are able to reason about it fairly well, 
+      which is nice.
+    </p>
+    </section>
+    <section>
+      <h1>
+        Final thoughts
+      </h1>
+      <p>
+        An additionally nice thing here is that 
+        having this kind of understanding about 
+        common use cases for 'expanding text'
+        could allow us to look at those as a 
+        'class of things' and work together 
+        to find ways to more generally improve 
+        fundamental abilities for this 'class'
+        or problem and make joint efforts 
+        that increase our odds of success.
+      </p>
+    </section>
+    
+    
+  </body>
+</html>
