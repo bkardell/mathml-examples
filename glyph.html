@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>mfence shadow polyfill demo</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/prism.css">
+    <script src="prism.js"></script>
+
+    <style>
+      section {
+        padding: 2rem;
+        margin: 2rem;
+        border-bottom: 1px dotted gray;
+      }
+      .out {
+        margin: 2rem;
+      }
+
+    </style>
+  </head>  
+  <body>
+    <h1>Shadow DOM polyfilling MathML beyond MathML-Core</h1>
+    <p>
+      An example of <a href="shadow-poly.html">employing experimental Shadow DOM in MathML</a>
+      for polyfilling.  
+    </p>
+    
+    <section>
+      <h1>
+        Simple
+      </h1>
+      Code sample:
+      <pre><code class="language-html">&lt;math&gt; 
+    &lt;mi&gt;&lt;mglyph src="https://www.spinfold.com/wp-content/uploads/2014/04/pi.jpg" alt="my glyph"/&gt;&lt;/mi&gt; 
+&lt;/math&gt;</code></pre>
+
+
+      <div class="out">
+        renders as:
+        <math> 
+          <mi><mglyph src="https://www.spinfold.com/wp-content/uploads/2014/04/pi.jpg" alt="my glyph"/></mi>
+        </math>
+      </div>
+      
+    </section>
+    
+    
+    
+  </body>
+  <script type="module" src="./js/poly/glyph-shadow-poly.js"></script>
+</html>
